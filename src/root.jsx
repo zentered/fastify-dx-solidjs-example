@@ -4,7 +4,7 @@ import { createMutable } from 'solid-js/store'
 import { Router, Routes, Route } from 'solid-app-router'
 import DXRoute from '/dx:route.jsx'
 import { isServer } from '/dx:core.js'
-import { createResource, Show } from 'solid-js'
+import { createResource, Show, For, mergeProps } from 'solid-js'
 import { GraphQLProvider } from './contexts/GraphQL'
 import githubAuth from './data/github-auth.data'
 
@@ -56,10 +56,14 @@ function SiteRequiresAuth(props) {
 }
 
 export default function Root(props) {
-  // eslint-disable-next-line solid/reactivity
-  props.payload.serverRoute.state = isServer
-    ? props.payload.serverRoute.state
-    : createMutable(props.payload.serverRoute.state)
+  props = mergeProps(
+    {
+      state: isServer
+        ? props.payload.serverRoute.state
+        : createMutable(props.payload.serverRoute.state)
+    },
+    props
+  )
 
   return (
     <Auth0
@@ -69,9 +73,8 @@ export default function Root(props) {
       <SiteRequiresAuth>
         <Router url={props.url}>
           <Routes>
-            {
-              // eslint-disable-next-line solid/prefer-for
-              props.payload.routes.map((route) => (
+            <For each={props.payload.routes}>
+              {(route) => (
                 <Route
                   path={route.path}
                   element={
@@ -83,8 +86,8 @@ export default function Root(props) {
                     />
                   }
                 />
-              ))
-            }
+              )}
+            </For>
           </Routes>
         </Router>
       </SiteRequiresAuth>

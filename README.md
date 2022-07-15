@@ -3,7 +3,7 @@
 These are only the essentials to set up a "real world" application with Fastify
 DX, Solid.js, Auth0 and GraphQL. To read more about how, why etc. please refer
 to our blog post:
-[Real World App using Fastify DX and Solid.js](https://zentered.co/blog/fastify-dx-and-solidjs-in-the-real-world)
+[Real World App using Fastify DX and Solid.js](https://zentered.co/articles/fastify-dx-and-solidjs-in-the-real-world/)
 
 This application connects to the GitHub GraphQL. We use
 [Auth0](https://auth0.com) and a

@@ -4,13 +4,11 @@ import { star } from 'solid-heroicons/solid'
 import { Link } from 'solid-app-router'
 
 export default function RepoList(props) {
-  const { repos } = props
-
   return (
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
       <h2>Public GitHub Repositories</h2>
       <ul role="list" class="divide-y divide-gray-200">
-        <For each={repos()?.data.viewer.repositories.nodes}>
+        <For each={props.repos()?.data.viewer.repositories.nodes}>
           {(repo) => {
             return (
               <li>

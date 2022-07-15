@@ -18,18 +18,18 @@ export function Auth0(props) {
 
   const [isAuthenticated, setIsAuthenticated] = createSignal()
 
-  let auth0Client
+  let auth0ClientPromise = {}
   if (!isServer) {
-    const auth0ClientPromise = createAuth0Client({
+    auth0ClientPromise = createAuth0Client({
       domain: props.domain,
       client_id: props.clientId,
       redirect_uri: props.successRedirectUri
     })
-    const [client] = createResource(async () => {
-      return auth0ClientPromise
-    })
-    auth0Client = client
   }
+
+  const [auth0Client] = createResource(async () => {
+    return auth0ClientPromise
+  })
 
   return (
     <Auth0Context.Provider

@@ -19,8 +19,7 @@ function createGqlClient(accessToken) {
 
 export const useGraphQL = () => useContext(GraphQLContext)
 export function GraphQLProvider(props) {
-  const { accessToken } = props
-  const gqlClient = createMemo(() => createGqlClient(accessToken()))
+  const gqlClient = createMemo(() => createGqlClient(props.accessToken()))
 
   return (
     <GraphQLContext.Provider value={gqlClient}>
