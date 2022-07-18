@@ -4,11 +4,12 @@
   "description": "Real world app using Fastify-DX, Solid.js, Auth0 and GraphQL",
   "keywords": [
     "solidjs",
+    "vite",
     "fastify-dx",
     "auth0",
     "graphql"
   ],
-  "homepage": "https://zentered.co/blog/fastify-dx-and-solidjs-in-the-real-world",
+  "homepage": "https://zentered.co/articles/fastify-dx-and-solidjs-in-the-real-world/",
   "bugs": {
     "url": "https://github.com/zentered/fastify-dx-solidjs-example/issues"
   },
