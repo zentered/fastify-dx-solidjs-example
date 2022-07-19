@@ -37,3 +37,7 @@ server.post('/api/token', async (request, reply) => {
 await server.vite.ready()
 
 await server.listen({ host: '0.0.0.0', port: port })
+
+await server.ready(() => {
+  console.log(`Opening web server on port ${port}`)
+})

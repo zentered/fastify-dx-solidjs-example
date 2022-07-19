@@ -1,0 +1,58 @@
+FROM node:16-alpine as base
+WORKDIR /usr/app
+RUN npm install -g pnpm
+
+FROM base as build
+WORKDIR /usr/app
+
+ARG env=production
+ARG _VITE_BASE_URL
+ARG _VITE_GQL_API_URL 
+ARG _VITE_AUTH0_DOMAIN
+ARG _VITE_AUTH0_AUDIENCE
+ARG _VITE_AUTH0_CALLBACK_URI
+ARG _VITE_AUTH0_CLIENT_ID
+ENV PORT=$port
+ENV HOST=0.0.0.0
+ENV VITE_BASE_URL=$_VITE_BASE_URL
+ENV VITE_GQL_API_URL=$_VITE_GQL_API_URL
+ENV VITE_AUTH0_DOMAIN=$_VITE_AUTH0_DOMAIN
+ENV VITE_AUTH0_AUDIENCE=$_VITE_AUTH0_AUDIENCE
+ENV VITE_AUTH0_CALLBACK_URI=$_VITE_AUTH0_CALLBACK_URI
+ENV VITE_AUTH0_CLIENT_ID=$_VITE_AUTH0_CLIENT_ID
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install
+COPY . ./
+RUN pnpm build
+
+
+FROM node:16-slim as ts-remover
+WORKDIR /usr/app
+RUN npm install -g pnpm
+COPY --from=build /usr/app/package.json ./
+COPY --from=build /usr/app/pnpm-lock.yaml ./
+COPY --from=build /usr/app/src/dist ./src/dist
+COPY --from=build /usr/app/*.js ./
+RUN pnpm install --prod
+
+
+FROM node:16-slim as production
+WORKDIR /usr/app
+COPY --from=ts-remover /usr/app ./
+ARG env=production
+ARG _VITE_BASE_URL
+ARG _VITE_GQL_API_URL 
+ARG _VITE_AUTH0_DOMAIN
+ARG _VITE_AUTH0_AUDIENCE
+ARG _VITE_AUTH0_CALLBACK_URI
+ARG _VITE_AUTH0_CLIENT_ID
+ENV PORT=$port
+ENV HOST=0.0.0.0
+ENV VITE_BASE_URL=$_VITE_BASE_URL
+ENV VITE_GQL_API_URL=$_VITE_GQL_API_URL
+ENV VITE_AUTH0_DOMAIN=$_VITE_AUTH0_DOMAIN
+ENV VITE_AUTH0_AUDIENCE=$_VITE_AUTH0_AUDIENCE
+ENV VITE_AUTH0_CALLBACK_URI=$_VITE_AUTH0_CALLBACK_URI
+ENV VITE_AUTH0_CLIENT_ID=$_VITE_AUTH0_CLIENT_ID
+EXPOSE $PORT
+CMD ["node", "--experimental-specifier-resolution=node", "server.js"]
