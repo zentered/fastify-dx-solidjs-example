@@ -60,7 +60,7 @@
     "fastify": "^4.10.2",
     "fastify-dx-solid": "^0.0.4",
     "fastify-vite": "3.0.0-beta.23",
-    "graphql": "^16.5.0",
+    "graphql": "^16.8.1",
     "ky": "^0.31.0",
     "ky-universal": "^0.10.1",
     "parse-path": "^5.0.0",
