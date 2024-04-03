@@ -68,7 +68,7 @@
     "solid-heroicons": "^2.0.3",
     "solid-js": "^1.4.7",
     "unihead": "^0.0.6",
-    "vite": "^3.2.8",
+    "vite": "^3.2.10",
     "vite-plugin-solid": "^2.3.0",
     "yup": "^0.32.11"
   },
